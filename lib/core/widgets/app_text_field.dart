@@ -6,6 +6,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   String? Function(String?)? validator;
+  final Function(String) onSaved;
   final Color fillColor;
   bool? showPassword;
   void Function(String)? onChanged;
@@ -16,6 +17,7 @@ class AppTextField extends StatelessWidget {
      required this.controller,
      required this.hint,
      required this.validator,
+     required this.onSaved,
      this.showPassword,
      this.fillColor = const Color.fromRGBO(30, 29, 37, 1.0),
      this.onChanged,

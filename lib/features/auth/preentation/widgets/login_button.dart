@@ -19,7 +19,8 @@ class LoginButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         color: const Color.fromRGBO(0, 82, 218, 1.0,),
       ),
-      child: TextButton(onPressed: onTap,
+      child: TextButton(
+        onPressed: onTap,
           child: Text(title, style: const TextStyle(fontSize: 22,
               color: Colors.white,
             height: 1.5

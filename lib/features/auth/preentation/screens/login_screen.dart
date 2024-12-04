@@ -2,7 +2,6 @@ import 'package:chat_app/core/widgets/app_text_field.dart';
 import 'package:chat_app/features/auth/preentation/widgets/login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/services/navigation_services.dart';
@@ -19,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  late AuthenticationProvider _auth;
+  late AuthenticationProvider auth;
   late NavigationService _navigation;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,13 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool showPassword = false;
 
-  String? _email;
-  String? _password;
+  String? email;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
 
-    _auth = Provider.of<AuthenticationProvider>(context);
+    auth = Provider.of<AuthenticationProvider>(context);
     // _navigation = GetIt.instance.get<NavigationService>();
 
     return  Scaffold(
@@ -59,17 +58,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     hint: 'Email',
                     validator: (String? value) => Validator.email(value),
+                    onSaved: (value ) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
                   ),
                   SizedBox(height: 20.h,),
                   AppTextField(
                     controller: _passwordController,
                     hint: 'Password',
                     validator: (String? value) => Validator.defaultValidator(value),
+                    onSaved: (value ) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
                   ),
                   SizedBox(height: 40.h,),
                   LoginButton(
                       title: 'Login',
-                      onTap: (){} ),
+                      onTap: (){
+                        if(formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          auth.loginUsingEmailAndPassword(email!, password!);
+                        }
+                      } ,
+                  ),
                 ],
               ),
             ],
