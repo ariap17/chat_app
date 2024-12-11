@@ -1,12 +1,13 @@
 import 'package:chat_app/core/widgets/app_text_field.dart';
-import 'package:chat_app/features/auth/preentation/widgets/login_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/services/navigation_services.dart';
 import '../../../../core/util/validator.dart';
 import '../provider/auth_provider.dart';
+import '../widgets/login_button.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   late AuthenticationProvider auth;
-  late NavigationService _navigation;
+  late NavigationService navigation;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -31,10 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
 
   @override
+  void initState() {
+    super.initState();
+    navigation = GetIt.instance.get<NavigationService>();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     auth = Provider.of<AuthenticationProvider>(context);
-    // _navigation = GetIt.instance.get<NavigationService>();
+    // navigation = GetIt.instance.get<NavigationService>();
 
     return  Scaffold(
       body: Container(

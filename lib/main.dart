@@ -1,21 +1,27 @@
 import 'package:chat_app/core/services/navigation_services.dart';
-import 'package:chat_app/features/auth/preentation/screens/login_screen.dart';
-import 'package:chat_app/features/auth/preentation/screens/splash_screen.dart';
+import 'package:chat_app/features/home/presentation/home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'core/constants/values/size_configration.dart';
-import 'features/auth/preentation/provider/auth_provider.dart';
+import 'features/auth/presentation/provider/auth_provider.dart';
+import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/auth/presentation/screens/splash_screen.dart';
 import 'firebase_options.dart';
+
+
+final sl = GetIt.instance;
 
 void main() async{
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  sl.registerLazySingleton<NavigationService>(() => NavigationService());
   runApp(const MyApp());
 }
 
@@ -35,9 +41,7 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider<AuthenticationProvider>(
-              create: (BuildContext context) {
-                return AuthenticationProvider();
-              },
+              create: (_) => AuthenticationProvider(),
             ),
           ],
           child: MaterialApp(
@@ -55,6 +59,7 @@ class MyApp extends StatelessWidget {
             initialRoute: '/login',
             routes: {
               '/login': (BuildContext context) => const LoginScreen(),
+              '/home' : (BuildContext context) => const HomeScreen(),
             },
             home:  SplashScreen(onInitlizationComplete: (){
 
